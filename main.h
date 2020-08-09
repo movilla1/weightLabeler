@@ -7,6 +7,15 @@
 #include <sqlite3.h> 
 #include <malloc.h>
 #include <cstring>
+#include <menu.h>
+#include "main_menu.h"
+#include "pesaje.h"
+
+#define ACTION_PRINT 0
+#define ACTION_SEARCH 1
+#define ACTION_CREATE 2
+#define ACTION_MODIFY 3
+#define ACTION_EXIT 4
 
 void init_display_frame();
 void buscar_articulo();

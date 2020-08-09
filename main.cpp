@@ -1,32 +1,12 @@
-#include <menu.h>
 #include "main.h"
-#include "main_menu.h"
 
 using namespace std;
 
 int main(int argc, char ** argv) {
     bool exit = false;
     int action = -1;
-    int key = 0;
-    char *choices[] = {
-      "Imprimir Peso     ",
-      "Buscar Articulo   ",
-      "Crear Articulo    ",
-      "Modificar Articulo",
-      "Salir             "
-    };
-    char *descriptions[] = {
-      "Imprimir etiqueta de peso con art. ",
-      "Buscar articulo por codigo o nombre",
-      "Crear articulo nuevo en la base    ",
-      "Modificar datos de articulo        ",
-      "Terminar y salir del sistema       "
-    };
-
-    MEVENT mouseEvent;
-    MENU *myMenu;
-    ITEM **my_items;
-
+    int maxY = 20;
+    
     initscr(); //initialize ncurses lib
     clear();
     noecho();
@@ -34,14 +14,29 @@ int main(int argc, char ** argv) {
     /* Get all the mouse events */
     mousemask(ALL_MOUSE_EVENTS, NULL);
     init_display_frame();
-    WINDOW *menuWindow = newwin(11, 25, 1, 1);
-    MainMenu menu(choices, descriptions,ARRAY_SIZE(choices), menuWindow, true);
+    MainMenu menu(true, "Menu Principal");
     keypad(stdscr, true);
     wtimeout(stdscr, 0);
     while (!exit) {
         action = menu.getAction();
         switch (action) {
-          case 3:
+          case ACTION_PRINT:
+            imprimir_peso();
+            init_display_frame();
+            break;
+          case ACTION_SEARCH:
+            buscar_articulo();
+            init_display_frame();
+            break;
+          case ACTION_CREATE:
+            crear_articulo();
+            init_display_frame();
+            break;
+          case ACTION_MODIFY:
+            modificar_articulo();
+            init_display_frame();
+            break;
+          case ACTION_EXIT:
             exit = true;
             break;
         }
@@ -54,17 +49,23 @@ int main(int argc, char ** argv) {
 
 void init_display_frame() {
     //printf("\033[?1003h\n");
+    init_pair(1, COLOR_GREEN, COLOR_BLACK);
+    init_pair(2, COLOR_CYAN, COLOR_BLACK);
     box(stdscr, 0, 0);
-    move(14, 24);
-    printw("Hello!");
+    wattron(stdscr, COLOR_PAIR(1));
+    mvprintw(25,1, "WeigthLabeler v1.0");
+    wattroff(stdscr, COLOR_PAIR(1));
+    wattron(stdscr, COLOR_PAIR(2));
+    mvprintw(70,25, "(c) 2020 - ElcanSoftware");
+    wattroff(stdscr, COLOR_PAIR(2));
     refresh();
 }
 
 void imprimir_peso() {
-    //dibujar pantalla con peso y articulo
-    //boton para leer peso
-    //boton para imprimir etiqueta
-    //boton para menu principal
+    Pesaje pesaje;
+    while(pesaje.running)  {
+      pesaje.run();
+    }
 }
 
 void buscar_articulo() {
