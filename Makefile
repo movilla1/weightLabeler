@@ -4,7 +4,7 @@ OBJS =  main.o main_menu.o common.o pesaje.o
 CFLAGS = -Wall -g -Wno-write-strings
 CC = g++
 INCLUDES =
-LIBS = -lncurses -lmenu
+LIBS = -lncurses -lmenu -lglbarcode
 
 weightLabeler: ${OBJS}
 		${CC} ${CFLAGS} ${INCLUDES} ${OBJS} -o bin/$@ ${LIBS}

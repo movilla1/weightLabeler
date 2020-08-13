@@ -22,10 +22,11 @@ MainMenu::MainMenu(bool boxed, char *title) {
     keypad(this->window, TRUE);
     wtimeout(this->window, 0);
     this->draw(boxed);
+    menu_opts_off(this->menu, O_SHOWDESC);
     set_menu_win(this->menu, this->window);
-    set_menu_sub(this->menu, derwin(this->window, this->n_choices + 1, 19, 3, 1));
-    set_menu_mark(this->menu, " * ");
+    set_menu_sub(this->menu, derwin(this->window, this->n_choices + 1, 22, 3, 1));
     post_menu(this->menu);
+    init_pair(3, COLOR_CYAN, COLOR_BLACK);
     wrefresh(this->window);
 }
 
@@ -36,9 +37,13 @@ int MainMenu::getAction() {
     switch (key) {
     case KEY_DOWN:
         menu_driver(this->menu, REQ_DOWN_ITEM);
+        this->showDescription(current_item(this->menu));
+        wrefresh(this->window);
         break;
     case KEY_UP:
         menu_driver(this->menu, REQ_UP_ITEM);
+        this->showDescription(current_item(this->menu));
+        wrefresh(this->window);
         break;
     case _KEY_ENTER:
         item = current_item(this->menu);
@@ -48,7 +53,7 @@ int MainMenu::getAction() {
         retval = 4;
         break;
     }
-    wrefresh(this->window);
+    
     return retval;
 }
 
@@ -68,11 +73,21 @@ void MainMenu::finish() {
 void MainMenu::draw(bool boxed) {
     if (boxed) {
         box(this->window, 0, 0);
+        mvwaddch(this->window, 2, 0, ACS_LTEE);
         mvwhline(this->window, 2, 1, ACS_HLINE, 23);
+        mvwaddch(this->window, 2, 24, ACS_RTEE);
+        mvwaddch(this->window,0,24, ACS_TTEE);
+        mvwaddch(this->window,24,24, ACS_BTEE);
     }
     init_pair(1, COLOR_BLUE, COLOR_BLACK);
     int windowY = getmaxy(this->window);
     print_in_middle(this->window, 1, 1, windowY, title, COLOR_PAIR(1));
+}
+
+void MainMenu::showDescription(ITEM *item) {
+  attron(COLOR_PAIR(3));
+  mvprintw(22,26, item->description.str);
+  attroff(COLOR_PAIR(3));
 }
 
 MainMenu::~MainMenu() {

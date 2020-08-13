@@ -28,7 +28,7 @@ private:
       "Modificar datos de articulo        ",
       "Terminar y salir del sistema       "
     };
-
+    void showDescription(ITEM *);
     int n_choices;
     char *title;
     WINDOW *window;

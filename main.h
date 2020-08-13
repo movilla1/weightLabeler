@@ -10,6 +10,7 @@
 #include <menu.h>
 #include "main_menu.h"
 #include "pesaje.h"
+#include "articulo.h"
 
 #define ACTION_PRINT 0
 #define ACTION_SEARCH 1
