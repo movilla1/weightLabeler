@@ -58,13 +58,13 @@ int MainMenu::getAction() {
 }
 
 void MainMenu::finish() {
-    if (this->menu != NULL) {
+    if (this->menu != nullptr) {
         unpost_menu(this->menu);
         free_menu(this->menu);
     }
-    if (this->title != NULL)
+    if (this->title != nullptr)
         free(this->title);
-    if (this->n_choices != NULL) {
+    if (this->n_choices != 0) {
         for (int i = 0; i < this->n_choices; ++i)
             free_item(this->_items[i]);
     }

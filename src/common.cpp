@@ -22,3 +22,16 @@ void print_in_middle(WINDOW *win, int starty, int startx, int width, char *strin
     wattroff(win, color);
     refresh();
 }
+
+std::string getCurrentDate() {
+  time_t rawtime;
+  struct tm * timeinfo;
+  char buffer[80];
+
+  time (&rawtime);
+  timeinfo = localtime(&rawtime);
+
+  strftime(buffer,sizeof(buffer),"%Y-%m-%d",timeinfo);
+  std::string str(buffer);
+  return (str);
+}

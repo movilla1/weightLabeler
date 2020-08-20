@@ -1,18 +1,11 @@
-SHELL = /bin/sh
+SUBDIRS := src/
 
-OBJS =  main.o main_menu.o common.o pesaje.o
-CFLAGS = -Wall -g -Wno-write-strings
-CC = g++
-INCLUDES =
-LIBS = -lncurses -lmenu -lglbarcode
+all: $(SUBDIRS)
 
-weightLabeler: ${OBJS}
-		${CC} ${CFLAGS} ${INCLUDES} ${OBJS} -o bin/$@ ${LIBS}
+clean: 
+		rm -f src/*.o bin/*
 
-.cpp.o:
-		$(CC) $(CFLAGS) -c $<
+$(SUBDIRS):
+		$(MAKE) -C $@
 
-clean:
-		-rm *.o bin/*
-
-all: weightLabeler
+.PHONY: all $(SUBDIRS)

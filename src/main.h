@@ -8,9 +8,13 @@
 #include <malloc.h>
 #include <cstring>
 #include <menu.h>
-#include "main_menu.h"
-#include "pesaje.h"
 #include "articulo.h"
+#include "buscar.h"
+#include "crear_articulo.h"
+#include "db_interface.h"
+#include "main_menu.h"
+#include "modificar_articulo.h"
+#include "pesaje.h"
 
 #define ACTION_PRINT 0
 #define ACTION_SEARCH 1
@@ -19,7 +23,7 @@
 #define ACTION_EXIT 4
 
 void init_display_frame();
-void buscar_articulo();
-void crear_articulo();
-void modificar_articulo();
-void imprimir_peso();
+void buscar_articulo(DbInterface *);
+void crear_articulo(DbInterface *);
+void modificar_articulo(DbInterface *);
+void imprimir_peso(DbInterface *);

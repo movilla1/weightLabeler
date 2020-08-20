@@ -12,7 +12,7 @@ int main(int argc, char ** argv) {
     clear();
     noecho();
     cbreak();
-    Articulo articulo;
+    DbInterface db;
     /* Get all the mouse events */
     mousemask(ALL_MOUSE_EVENTS, NULL);
     init_display_frame();
@@ -23,19 +23,19 @@ int main(int argc, char ** argv) {
         action = menu.getAction();
         switch (action) {
           case ACTION_PRINT:
-            imprimir_peso(articulo);
+            imprimir_peso(&db);
             init_display_frame();
             break;
           case ACTION_SEARCH:
-            buscar_articulo(articulo);
+            buscar_articulo(&db);
             init_display_frame();
             break;
           case ACTION_CREATE:
-            crear_articulo(articulo);
+            crear_articulo(&db);
             init_display_frame();
             break;
           case ACTION_MODIFY:
-            modificar_articulo(articulo);
+            modificar_articulo(&db);
             init_display_frame();
             break;
           case ACTION_EXIT:
@@ -63,29 +63,41 @@ void init_display_frame() {
     refresh();
 }
 
-void imprimir_peso(Articulo *articulo) {
-    Pesaje pesaje(articulo);
+void imprimir_peso(DbInterface *db) {
+    Pesaje pesaje(db);
     while(pesaje.running)  {
       pesaje.run();
     }
 }
 
-void buscar_articulo(Articulo *articulo) {
+void buscar_articulo(DbInterface *db) {
     // permitir busqueda por codigo o nombre
     // mostrar listado y permitir seleccion de uno para detalles
     // mostrar detalles c/boton volver al listado
     // opcion para volver a menu principal.
+    BuscarArticulo buscar(db);
+    while(buscar.running) {
+      buscar.run();
+    }
 }
 
-void crear_articulo(Articulo *articulo) {
+void crear_articulo(DbInterface *db) {
     //dibujar pantalla de articulo
     //esperar inputs
     //grabar datos y preguntar otro o menu
+    CrearArticulo crea(db);
+    while(crea.running) {
+      crea.run();
+    }
 }
 
-void modificar_articulo(Articulo *articulo) {
+void modificar_articulo(DbInterface *db) {
     //dibujar formulario
     // permitir busqueda por código o nombre
     // mostrar registro seleccionado en campos de edicion
     // grabar y esperar por opcion de volver al menu o seguir editando
+    ModificarArticulo mod(db);
+    while(mod.running) {
+      mod.run();
+    }
 }

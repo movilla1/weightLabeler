@@ -1,4 +1,5 @@
 *.o
 bin/*
 .vscode/
-lib/glbarcode
+lib/
+productos.db

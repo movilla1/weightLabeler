@@ -15,18 +15,18 @@ public:
 
 private:
     const char choices[5][20] = {
-      "Imprimir Peso     ",
-      "Buscar Articulo   ",
-      "Crear Articulo    ",
+      "Imprimir Peso",
+      "Listar Articulos",
+      "Crear Articulo",
       "Modificar Articulo",
-      "Salir             "
+      "Terminar y Salir"
     };
-    const char descriptions[5][37] = {
-      "Imprimir etiqueta de peso con art. ",
-      "Buscar articulo por codigo o nombre",
-      "Crear articulo nuevo en la base    ",
-      "Modificar datos de articulo        ",
-      "Terminar y salir del sistema       "
+    const char descriptions[5][35] = {
+      "Imprimir etiqueta de peso con art.",
+      "Listar Todos los articulos en db.",
+      "Crear articulo nuevo en la base",
+      "Modificar datos de articulo",
+      "Terminar y salir del sistema"
     };
     void showDescription(ITEM *);
     int n_choices;
