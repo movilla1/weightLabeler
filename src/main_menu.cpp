@@ -26,7 +26,6 @@ MainMenu::MainMenu(bool boxed, char *title) {
     set_menu_win(this->menu, this->window);
     set_menu_sub(this->menu, derwin(this->window, this->n_choices + 1, 22, 3, 1));
     post_menu(this->menu);
-    init_pair(3, COLOR_CYAN, COLOR_BLACK);
     wrefresh(this->window);
 }
 
@@ -79,15 +78,14 @@ void MainMenu::draw(bool boxed) {
         mvwaddch(this->window,0,24, ACS_TTEE);
         mvwaddch(this->window,24,24, ACS_BTEE);
     }
-    init_pair(1, COLOR_BLUE, COLOR_BLACK);
     int windowY = getmaxy(this->window);
-    print_in_middle(this->window, 1, 1, windowY, title, COLOR_PAIR(1));
+    print_in_middle(this->window, 1, 1, windowY, title, COLOR_PAIR(BLUE_ON_BLACK));
 }
 
 void MainMenu::showDescription(ITEM *item) {
-  attron(COLOR_PAIR(3));
+  attron(COLOR_PAIR(CYAN_ON_BLACK));
   mvprintw(22,26, item->description.str);
-  attroff(COLOR_PAIR(3));
+  attroff(COLOR_PAIR(CYAN_ON_BLACK));
 }
 
 MainMenu::~MainMenu() {

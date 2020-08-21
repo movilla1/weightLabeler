@@ -9,7 +9,7 @@
 #include <cstring>
 #include <menu.h>
 #include "articulo.h"
-#include "buscar.h"
+#include "listar_articulos.h"
 #include "crear_articulo.h"
 #include "db_interface.h"
 #include "main_menu.h"

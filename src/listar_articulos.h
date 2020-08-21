@@ -7,10 +7,10 @@
 
 using namespace std;
 
-class BuscarArticulo {
+class ListarArticulos {
   public:
-    BuscarArticulo(DbInterface *db);
-    ~BuscarArticulo();
+    ListarArticulos(DbInterface *db);
+    ~ListarArticulos();
     bool running;
     void run();
 

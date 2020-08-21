@@ -34,8 +34,8 @@ void Dialogo::setTitle(string title) {
 }
 
 void Dialogo::drawScreen() {
-    init_pair(1, COLOR_YELLOW, COLOR_BLACK);
-    print_in_middle(this->window, 1, 1, this->maxX, (char *)this->title.c_str(), COLOR_PAIR(1));
+    init_pair(YELLOW_ON_BLACK, COLOR_YELLOW, COLOR_BLACK);
+    print_in_middle(this->window, 1, 1, this->maxX, (char *)this->title.c_str(), COLOR_PAIR(YELLOW_ON_BLACK));
     box(this->menuWindow, 0, 0);
     mvwaddch(this->menuWindow, 0, 0, ACS_LTEE);
     mvwaddch(this->menuWindow, 0, this->maxX-1, ACS_RTEE);

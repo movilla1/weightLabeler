@@ -8,8 +8,8 @@ CrearArticulo::CrearArticulo(DbInterface *db)
   this->dlgArea = newwin(20,70,3,5);
   keypad(this->dlgArea, true);
   start_color();
-  this->setupForm();
   this->draw();
+  this->setupForm();
 }
 
 void CrearArticulo::run()
@@ -30,7 +30,9 @@ void CrearArticulo::run()
   case KEY_F(2):
     form_driver(this->form, REQ_VALIDATION);
     this->saveData();
+    wclear(this->dlgArea);
     this->startNew();
+    this->draw();
     break;
   case KEY_F(4):
     form_driver(this->form, REQ_VALIDATION);
@@ -79,10 +81,9 @@ void CrearArticulo::draw()
   mvwprintw(this->dlgArea, 6, 1, "PRECIO     :");
   mvwprintw(this->dlgArea, 7, 1, "UPC        :");
   mvwprintw(this->dlgArea, 8, 1, "SKU        :");
-  init_pair(1, COLOR_MAGENTA, COLOR_BLACK);
-  wattron(this->dlgArea, COLOR_PAIR(1));
+  wattron(this->dlgArea, COLOR_PAIR(BLUE_ON_WHITE));
   mvwprintw(this->dlgArea, 1, 6, "F8 Cancel, F4 Save and return, F2 Save and continue");
-  wattroff(this->dlgArea, COLOR_PAIR(1));
+  wattroff(this->dlgArea, COLOR_PAIR(BLUE_ON_WHITE));
   wrefresh(this->dlgArea);
 }
 
@@ -120,8 +121,15 @@ bool CrearArticulo::saveData()
   art.precio = atof(field_buffer(fields[2], 0));
   art.upc = field_buffer(fields[3], 0);
   art.sku = field_buffer(fields[4], 0);
+  if (art.nombre.length() < 3 || art.precio < 0.01 || art.sku.length() < 2) {
+    showAlert(this->dlgArea, "Debe completar los campos para poder guardar", true);
+    return(false);
+  }
   art.fecha = getCurrentDate();
   bool ret = this->db->grabarArticulo(&art);
+  if (!ret) {
+   showAlert(this->dlgArea, "Articulo guardado", false);
+  }
   return(ret);
 }
 

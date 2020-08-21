@@ -1,5 +1,5 @@
-#include "buscar.h"
-#define BUSCAR_MENU_SIZE 3
+#include "listar_articulos.h"
+#define BUSCAR_MENU_SIZE 2
 #define PAGE_SIZE 12
 
 // Column positions
@@ -9,10 +9,9 @@
 #define POS_UPC 42
 #define POS_PRIC 58
 
-BuscarArticulo::BuscarArticulo(DbInterface *db) {
-    char *options[12] ={
-        "Buscar",
-        "Seleccionar",
+ListarArticulos::ListarArticulos(DbInterface *db) {
+    char *options[9] ={
+        "Filtrar",
         "Volver",
     };
     this->ventana = new Dialogo(options, BUSCAR_MENU_SIZE);
@@ -25,24 +24,22 @@ BuscarArticulo::BuscarArticulo(DbInterface *db) {
     this->draw();
 }
 
-void BuscarArticulo::run() {
+void ListarArticulos::run() {
     unsigned char selection = this->ventana->runDialog();
     switch (selection) {
     case 0:
         break;
     case 1:
-        break;
-    case 2:
         this->running = false;
         break;
     }
 }
 
-BuscarArticulo::~BuscarArticulo() {
+ListarArticulos::~ListarArticulos() {
   delete(this->ventana);
 }
 
-void BuscarArticulo::draw() {
+void ListarArticulos::draw() {
   Articulo articulo;
   box(this->dlgArea, 0, 0);
   wattron(this->dlgArea, A_BOLD);

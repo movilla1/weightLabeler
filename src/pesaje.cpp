@@ -68,7 +68,7 @@ void Pesaje::buscarSKU() {
   } else {
     mvwprintw(this->dlgArea, 10,10, "No se encontro el articulo, pulse una tecla para continuar");
     wrefresh(this->dlgArea);
-    int i = getchar();
+    getchar();
   }
   wclear(this->dlgArea);
 }
