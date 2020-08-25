@@ -73,6 +73,9 @@ unsigned char Dialogo::runDialog() {
         item = current_item(this->menu);
         selection = item->index;
         break;
+    case KEY_F(8): // ON F8 return the last menu option (by convention used, cancel/quit is on the last menu position)
+        selection = this->menuSize - 1;
+        break;
     }
     return selection;
 }

@@ -48,7 +48,7 @@ int MainMenu::getAction() {
         item = current_item(this->menu);
         retval = item->index;
         break;
-    case KEY_F(12):
+    case KEY_F(8):
         retval = 4;
         break;
     }

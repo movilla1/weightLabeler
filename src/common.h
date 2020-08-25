@@ -16,6 +16,6 @@
 #define YELLOW_ON_BLACK 3
 
 
-void print_in_middle(WINDOW *win, int starty, int startx, int width, char *string, chtype color);
+void print_in_middle(WINDOW *win, int starty, int startx, int width, const char *string, chtype color);
 std::string getCurrentDate();
 void showAlert(WINDOW *win, const char *text, bool isError);

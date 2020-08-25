@@ -5,6 +5,8 @@
 #include "common.h"
 #include "db_interface.h"
 
+#define CREATE_FIELD_COUNT 5
+
 using namespace std;
 
 class CrearArticulo {
@@ -21,6 +23,8 @@ class CrearArticulo {
     FIELD *fields[6];
     void draw();
     void setupForm();
+    void setFieldBacks();
+    void setFieldOpts();
     bool saveData();
     void startNew();
 };

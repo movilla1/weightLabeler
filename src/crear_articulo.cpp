@@ -5,7 +5,7 @@ CrearArticulo::CrearArticulo(DbInterface *db)
 {
   this->running = true;
   this->db = db;
-  this->dlgArea = newwin(20,70,3,5);
+  this->dlgArea = newwin(20, 54, 2, 25);
   keypad(this->dlgArea, true);
   start_color();
   this->draw();
@@ -15,6 +15,7 @@ CrearArticulo::CrearArticulo(DbInterface *db)
 void CrearArticulo::run()
 {
   int ch = wgetch(this->dlgArea);
+  bool ret = false;
   switch (ch)
   {
   case KEY_DOWN:
@@ -29,15 +30,18 @@ void CrearArticulo::run()
     break;
   case KEY_F(2):
     form_driver(this->form, REQ_VALIDATION);
-    this->saveData();
-    wclear(this->dlgArea);
-    this->startNew();
+    ret = this->saveData();
+    if (ret)
+    {
+      this->startNew();
+    }
     this->draw();
     break;
   case KEY_F(4):
     form_driver(this->form, REQ_VALIDATION);
-    this->saveData();
-    this->running = false;
+    ret = this->saveData();
+    if (ret)
+      this->running = false;
     break;
   case KEY_F(8):
     this->running = false;
@@ -82,7 +86,8 @@ void CrearArticulo::draw()
   mvwprintw(this->dlgArea, 7, 1, "UPC        :");
   mvwprintw(this->dlgArea, 8, 1, "SKU        :");
   wattron(this->dlgArea, COLOR_PAIR(BLUE_ON_WHITE));
-  mvwprintw(this->dlgArea, 1, 6, "F8 Cancel, F4 Save and return, F2 Save and continue");
+  mvwprintw(this->dlgArea, 1, 6, "F4 Save and return, F2 Save and continue");
+  mvwprintw(this->dlgArea, 2, 6, "F8 Cancel");
   wattroff(this->dlgArea, COLOR_PAIR(BLUE_ON_WHITE));
   wrefresh(this->dlgArea);
 }
@@ -90,25 +95,21 @@ void CrearArticulo::draw()
 void CrearArticulo::setupForm()
 {
   this->fields[0] = new_field(1, 30, 0, 0, 0, 0);
-  this->fields[1] = new_field(1, 50, 1, 0, 0, 0);
+  set_field_type(this->fields[0], TYPE_ALNUM);
+  this->fields[1] = new_field(1, 35, 1, 0, 0, 0);
+  set_field_type(this->fields[1], TYPE_ALNUM);
   this->fields[2] = new_field(1, 8, 2, 0, 0, 0);
+  set_field_type(this->fields[2], TYPE_NUMERIC);
   this->fields[3] = new_field(1, 15, 3, 0, 0, 0);
+  set_field_type(this->fields[3], TYPE_ALNUM);
   this->fields[4] = new_field(1, 30, 4, 0, 0, 0);
+  set_field_type(this->fields[4], TYPE_ALNUM);
   this->fields[5] = NULL;
-
-  set_field_back(this->fields[0], A_UNDERLINE); /* Print a line for the option 	*/
-  set_field_back(this->fields[1], A_UNDERLINE); /* Print a line for the option 	*/
-  set_field_back(this->fields[2], A_UNDERLINE); /* Print a line for the option 	*/
-  set_field_back(this->fields[3], A_UNDERLINE); /* Print a line for the option 	*/
-  set_field_back(this->fields[4], A_UNDERLINE); /* Print a line for the option 	*/
-  field_opts_off(this->fields[0], O_AUTOSKIP);
-  field_opts_off(this->fields[1], O_AUTOSKIP);
-  field_opts_off(this->fields[2], O_AUTOSKIP);
-  field_opts_off(this->fields[3], O_AUTOSKIP);
-  field_opts_off(this->fields[4], O_AUTOSKIP);
+  this->setFieldBacks();
+  this->setFieldOpts();
   this->form = new_form(this->fields);
   set_form_win(this->form, this->dlgArea);
-  set_form_sub(this->form, derwin(this->dlgArea, 15, 50, 4, 15));
+  set_form_sub(this->form, derwin(this->dlgArea, 15, 40, 4, 13));
   post_form(this->form);
   wrefresh(this->dlgArea);
 }
@@ -121,24 +122,42 @@ bool CrearArticulo::saveData()
   art.precio = atof(field_buffer(fields[2], 0));
   art.upc = field_buffer(fields[3], 0);
   art.sku = field_buffer(fields[4], 0);
-  if (art.nombre.length() < 3 || art.precio < 0.01 || art.sku.length() < 2) {
-    showAlert(this->dlgArea, "Debe completar los campos para poder guardar", true);
-    return(false);
+  if (art.nombre.length() < 3 || art.precio < 0.01 || art.sku.length() < 2)
+  {
+    showAlert(this->dlgArea, "Debe completar los campos", true);
+    return (false);
   }
   art.fecha = getCurrentDate();
   bool ret = this->db->grabarArticulo(&art);
-  if (!ret) {
-   showAlert(this->dlgArea, "Articulo guardado", false);
+  if (!ret)
+  {
+    showAlert(this->dlgArea, "Articulo guardado", false);
   }
-  return(ret);
+  return (ret);
 }
 
 void CrearArticulo::startNew()
 {
-  for (int i = 0; i < 5; i++)
+  for (int i = 0; i < CREATE_FIELD_COUNT; i++)
   {
-    set_current_field (this->form, this->fields[i]);
-    form_driver (this->form, REQ_CLR_FIELD);
+    set_current_field(this->form, this->fields[i]);
+    form_driver(this->form, REQ_CLR_FIELD);
   }
   return;
+}
+
+void CrearArticulo::setFieldBacks()
+{
+  for (int i = 0; i < CREATE_FIELD_COUNT; i++)
+  {
+    set_field_back(this->fields[i], A_UNDERLINE); /* Print a line for the option 	*/
+  }
+}
+
+void CrearArticulo::setFieldOpts()
+{
+  for (int i = 0; i < CREATE_FIELD_COUNT; i++)
+  {
+    field_opts_off(this->fields[i], O_AUTOSKIP);
+  }
 }

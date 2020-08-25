@@ -23,7 +23,7 @@
 #define ACTION_EXIT 4
 
 void init_display_frame();
-void buscar_articulo(DbInterface *);
+void listar_articulo(DbInterface *);
 void crear_articulo(DbInterface *);
 void modificar_articulo(DbInterface *);
 void imprimir_peso(DbInterface *);

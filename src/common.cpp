@@ -1,6 +1,6 @@
 #include "common.h"
 
-void print_in_middle(WINDOW *win, int starty, int startx, int width, char *text, chtype color)
+void print_in_middle(WINDOW *win, int starty, int startx, int width, const char *text, chtype color)
 {
   int length, x, y;
   float temp;
@@ -40,12 +40,29 @@ std::string getCurrentDate()
 
 void showAlert(WINDOW *win, const char *text, bool isError)
 {
-  chtype color = isError ? COLOR_PAIR(COLOR_ERROR) : COLOR_PAIR(COLOR_NORMAL);
-  int maxX = getmaxx(win);
-  print_in_middle(win, 1, 10, maxX - 1, (char *)text, color);
-  print_in_middle(win, 2, 10, maxX - 1, "Pulse una tecla para continuar", COLOR_NORMAL);
+  WINDOW *alert = derwin(win, 10, 40, 5, 5);
+  wclear(alert);
+  start_color();
+  box(alert, 0, 0);
+  if (isError) {
+    wattron(alert, COLOR_PAIR(COLOR_ERROR));
+  } else {
+    wattron(alert, COLOR_PAIR(COLOR_NORMAL));
+  }
+  mvwprintw(alert, 1, 2, text);
+  if (isError) {
+    wattroff(alert, COLOR_PAIR(COLOR_ERROR));
+  } else {
+    wattroff(alert, COLOR_PAIR(COLOR_NORMAL));
+  }
+  wattron(alert, COLOR_PAIR(COLOR_NORMAL));
+  mvwprintw(alert, 2, 2, "Pulse una tecla para continuar");
+  wattroff(alert, COLOR_PAIR(COLOR_NORMAL));
+  wrefresh(alert);
   wrefresh(win);
-  wtimeout(win, -1);
-  wgetch(win);
-  wtimeout(win, 0);
+  wtimeout(alert, -1);
+  wgetch(alert);
+  wtimeout(alert, 0);
+  delwin(alert);
+  wrefresh(win);
 }
