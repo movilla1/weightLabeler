@@ -2,6 +2,7 @@
 import npyscreen
 import datetime
 
+
 class EditRecord(npyscreen.ActionForm):
     def create(self):
         self.value = None

@@ -2,6 +2,7 @@ import sqlite3
 import sys
 from pprint import pprint
 
+
 class ProductsDatabase(object):
     def __init__(self, filename="productos.db"):
         self.dbfilename = filename
@@ -55,9 +56,8 @@ class ProductsDatabase(object):
     def list_records_matching(self, kwds):
         db = sqlite3.connect(self.dbfilename)
         c = db.cursor()
-        pprint(kwds)
-        sys.exit(0);
-        c.execute("SELECT * FROM productos WHERE sku LIKE '?' OR upc LIKE '?'", (kwds + "%", kwds + "%"))
+        c.execute("SELECT * FROM productos WHERE sku LIKE ? OR upc LIKE ?",
+                  (kwds + "%", kwds + "%"))
         records = c.fetchall()
         c.close()
         return records
@@ -70,6 +70,7 @@ class ProductsDatabase(object):
         records = c.fetchone()
         c.close()
         return records
+
 
 def dict_factory(cursor, row):
     d = {}

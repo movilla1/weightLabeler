@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import npyscreen
 
+
 class RecordList(npyscreen.MultiLineAction):
     def __init__(self, *args, **keywords):
         super(RecordList, self).__init__(*args, **keywords)
@@ -8,7 +9,8 @@ class RecordList(npyscreen.MultiLineAction):
             "^A": self.when_add_record,
             "^E": self.when_edit_record,
             "^D": self.when_delete_record,
-            "^P": self.when_weight_print
+            "^P": self.when_weight_print,
+            "^F": self.when_filter,
         })
 
     def display_value(self, vl):
@@ -26,12 +28,17 @@ class RecordList(npyscreen.MultiLineAction):
         self.parent.parentApp.myDatabase.delete_record(
             self.values[self.cursor_line][0])
         self.parent.update_list()
-    
+
     def when_weight_print(self, vl):
-      print("Not ready yet")
+        print("Not ready yet")
         #self.parent.parentApp.getForm("PRINTRECORDFM").value = vl[0]
-        #self.parent.parentApp.switchForm("PRINTRECORDFM")
+        # self.parent.parentApp.switchForm("PRINTRECORDFM")
+
+    def when_filter(self, vl):
+        self.parent.parentApp.getForm(
+            "FILTERFORM").value = self.parent.parentApp.keywords
+        self.parent.parentApp.switchForm("FILTERFORM")
 
     def when_edit_record(self, act_on_this):
-      self.parent.parentApp.getForm('EDITRECORDFM').value = act_on_this
-      self.parent.parentApp.switchForm('EDITRECORDFM')
+        self.parent.parentApp.getForm('EDITRECORDFM').value = act_on_this
+        self.parent.parentApp.switchForm('EDITRECORDFM')
