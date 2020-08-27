@@ -1,13 +1,15 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import npyscreen
 import sqlite3
 import datetime
+
 from products_database import ProductsDatabase
 from edit_record import EditRecord
 from record_list import RecordList
 from show_record import ShowRecord
 from filter_form import FilterForm
+from print_record import PrintRecord
 
 class RecordListDisplay(npyscreen.FormMuttActiveWithMenus):
     MAIN_WIDGET_CLASS = RecordList
@@ -58,6 +60,7 @@ class ProductLabelerApplication(npyscreen.NPSAppManaged):
         self.addForm("EDITRECORDFM", EditRecord)
         self.addForm("SHOWRECORDFM", ShowRecord)
         self.addForm("FILTERFORM", FilterForm)
+        self.addForm("PRINTRECORDFM", PrintRecord)
 
 
 if __name__ == '__main__':

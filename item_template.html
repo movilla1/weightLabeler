@@ -1,0 +1,6 @@
+<span class='label'>
+    {{ sample_name }} <br/>
+    {{ sample_weight }}<br/>
+    {{ label_tools.now() }}<br/>
+</span>
+<img src="{{label_tools.barcode(sample_id+"%"+sample_weight, module_width=1.1, font_size=33)}}"/>

@@ -25,14 +25,15 @@ class RecordList(npyscreen.MultiLineAction):
         self.parent.parentApp.switchForm('EDITRECORDFM')
 
     def when_delete_record(self, *args, **keywords):
-        self.parent.parentApp.myDatabase.delete_record(
-            self.values[self.cursor_line][0])
-        self.parent.update_list()
+        conf = npyscreen.notify_yes_no("Esta acción es permanente, confirma?","Confirma Borrar?")
+        if conf:
+            self.parent.parentApp.myDatabase.delete_record(
+                self.values[self.cursor_line][0])
+            self.parent.update_list()
 
     def when_weight_print(self, vl):
-        print("Not ready yet")
-        #self.parent.parentApp.getForm("PRINTRECORDFM").value = vl[0]
-        # self.parent.parentApp.switchForm("PRINTRECORDFM")
+        self.parent.parentApp.getForm("PRINTRECORDFM").value = self.values[self.cursor_line][0]
+        self.parent.parentApp.switchForm("PRINTRECORDFM")
 
     def when_filter(self, vl):
         self.parent.parentApp.getForm(
