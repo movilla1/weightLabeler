@@ -1,6 +1,7 @@
 from blabel import LabelWriter
 from yaenv.core import Env
 from systel_protocol import SystelProtocol
+from os import path
 import npyscreen
 import subprocess
 
@@ -33,7 +34,7 @@ class PrintRecord(npyscreen.ActionForm):
             self.wgWeight.value = 0
 
     def on_ok(self):
-        if (self.wgWeight.value):
+        if (self.wgWeight.value && path.exists(self._barcodeFilename())):
             # print
             subprocess.call("/usr/bin/lpr " + self._barcodeFilename()) # send to the default printer.
         else:
