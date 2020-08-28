@@ -16,7 +16,7 @@ class EditRecord(npyscreen.ActionForm):
     def beforeEditing(self):
         if self.value:
             record = self.parentApp.myDatabase.get_record(self.value)
-            self.name = "Registro : %s" % record["id"]
+            self.name = "Editar Registro : %s" % record["id"]
             self.record_id = record["id"]
             self.wgName.value = record["nombre"]
             self.wgDescription.value = record["descripcion"]

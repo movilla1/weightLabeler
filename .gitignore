@@ -1,6 +1,7 @@
 .vscode/
 tmp/
 productos.db
+.env
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

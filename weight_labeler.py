@@ -15,14 +15,21 @@ class RecordListDisplay(npyscreen.FormMuttActiveWithMenus):
     MAIN_WIDGET_CLASS = RecordList
     STATUS_WIDGET_CLASS = npyscreen.Textfield
     STATUS_WIDGET_X_OFFSET = 0
+
     def __init__(self, *args, **keywords):
         menu = self.new_menu("Principal")
         menu.addItem("Filtrar", onSelect=self.filter)
-        menu.addItem("Ayuda", onSelect=self.show_help)
         menu.addItem("Salir", onSelect=self.do_exit)
         super(RecordListDisplay, self).__init__(*args, **keywords)
+        self.help = "\
+        Para editar un articulo pulse sobre el mismo y luego Ctrl+E y proceda a editar.\n\
+        Para agregar un nuevo articulo use Ctrl+A.\n\
+        Borre seleccionando un articulo y luego Ctrl+D.\n\
+        Imprima una etiqueta seleccionando el artículo y luego Ctrl+P.\n"
 
     def beforeEditing(self):
+        self.wStatus1.value = "Elcan Weight Labeler v1.0.0b"
+        self.wStatus2.value = "(c) 2020 - ElcanSoftware - Mario O. Villarroel"
         self.update_list()
 
     def update_list(self):
@@ -39,14 +46,6 @@ class RecordListDisplay(npyscreen.FormMuttActiveWithMenus):
         if conf:
             self.parentApp.switchForm(None)
 
-    def show_help(self, *args, **kwd):
-        message = "\
-        Para editar un articulo pulse sobre el mismo y luego Ctrl+E y proceda a editar.\n\
-        Para agregar un nuevo articulo use Ctrl+A.\n\
-        Borre seleccionando un articulo y luego Ctrl+D.\n\
-        Imprima una etiqueta desde la interfaz de mostrar y pulse Ctrl+X para ver el menu.\n"
-        npyscreen.notify_confirm(message)
-
     def filter(self, *args, **kwd):
         self.parentApp.getForm("FILTERFORM").value = self.parentApp.keywords
         self.parentApp.switchForm("FILTERFORM")
@@ -61,6 +60,7 @@ class ProductLabelerApplication(npyscreen.NPSAppManaged):
         self.addForm("SHOWRECORDFM", ShowRecord)
         self.addForm("FILTERFORM", FilterForm)
         self.addForm("PRINTRECORDFM", PrintRecord)
+        npyscreen.setTheme(npyscreen.Themes.ColorfulTheme)
 
 
 if __name__ == '__main__':

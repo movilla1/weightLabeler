@@ -34,12 +34,13 @@ class PrintRecord(npyscreen.ActionForm):
             self.wgWeight.value = 0
 
     def on_ok(self):
-        if (self.wgWeight.value && path.exists(self._barcodeFilename())):
+        if (self.wgWeight.value and path.exists(self._barcodeFilename())):
             # print
-            subprocess.call("/usr/bin/lpr " + self._barcodeFilename()) # send to the default printer.
+            # send to the default printer.
+            subprocess.call("/usr/bin/lpr " + self._barcodeFilename())
+            self.parentApp.switchFormPrevious()
         else:
             npyscreen.notify_wait("Debe leer el peso antes de poder imprimir")
-        self.parentApp.switchFormPrevious()
 
     def on_cancel(self):
         self.parentApp.switchFormPrevious()
@@ -66,7 +67,11 @@ class PrintRecord(npyscreen.ActionForm):
         return fname
 
     def _readSerialScale(self):
-        port = self.env.get('SERIALPORT', '/dev/ttyUSB0')
-        proto = SystelProtocol(port)
-        weight = proto.readWeight()
+        weight = -1
+        try:
+            port = self.env.get('SERIALPORT', '/dev/ttyS0')
+            proto = SystelProtocol(port)
+            weight = proto.readWeight()
+        except:
+            npyscreen.notify_wait("Fallo al leer la balanza")
         return weight

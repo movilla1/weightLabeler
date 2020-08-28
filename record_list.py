@@ -25,7 +25,7 @@ class RecordList(npyscreen.MultiLineAction):
         self.parent.parentApp.switchForm('EDITRECORDFM')
 
     def when_delete_record(self, *args, **keywords):
-        conf = npyscreen.notify_yes_no("Esta acción es permanente, confirma?","Confirma Borrar?")
+        conf = npyscreen.notify_yes_no("Esta acción es permanente, confirma ?","Confirma Borrar ?")
         if conf:
             self.parent.parentApp.myDatabase.delete_record(
                 self.values[self.cursor_line][0])

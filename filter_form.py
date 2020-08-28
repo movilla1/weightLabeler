@@ -6,6 +6,7 @@ import datetime
 class FilterForm(npyscreen.ActionPopup):
     def create(self):
         self.value = None
+        self.name = "Filtrar"
         self.wgFilter = self.add(npyscreen.TitleText, name="SKU o UPC:")
         self.wfClear = self.add(npyscreen.ButtonPress, name="Clear All Filters", relx=5, rely=5)
         self.wfClear.whenPressed = self.clearFilters
