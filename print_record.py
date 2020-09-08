@@ -37,7 +37,7 @@ class PrintRecord(npyscreen.ActionForm):
         if (self.wgWeight.value and path.exists(self._barcodeFilename())):
             # print
             # send to the default printer.
-            subprocess.call("/usr/bin/lpr " + self._barcodeFilename())
+            subprocess.call("/usr/bin/lpr ./" + self._barcodeFilename())
             self.parentApp.switchFormPrevious()
         else:
             npyscreen.notify_wait("Debe leer el peso antes de poder imprimir")
@@ -50,13 +50,17 @@ class PrintRecord(npyscreen.ActionForm):
         if (weight != -1):
             self.wgWeight.value = str(weight)
             self._getBarCode()
+            self.refresh()
 
     def _getBarCode(self):
         label_writer = LabelWriter("item_template.html",
                                    default_stylesheets=("style.css",))
         records = [
-            dict(sample_id=self.wgUPC.value, sample_weight='{:0.2f}'.format(
-                self.wgWeight.value), sample_name=self.wgSKU.value)
+            dict(
+              sample_id=self.wgUPC.value,
+              sample_weight=self.wgWeight.value,
+              sample_name=self.wgSKU.value
+            )
         ]
 
         label_writer.write_labels(
