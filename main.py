@@ -10,6 +10,7 @@ from record_list import RecordList
 from show_record import ShowRecord
 from filter_form import FilterForm
 from print_record import PrintRecord
+from pos_form import PosForm
 
 class RecordListDisplay(npyscreen.FormMuttActiveWithMenus):
     MAIN_WIDGET_CLASS = RecordList
@@ -54,12 +55,14 @@ class RecordListDisplay(npyscreen.FormMuttActiveWithMenus):
 class ProductLabelerApplication(npyscreen.NPSAppManaged):
     def onStart(self):
         self.keywords = ''
+        self.numVenta = 0
         self.myDatabase = ProductsDatabase()
         self.addForm("MAIN", RecordListDisplay)
         self.addForm("EDITRECORDFM", EditRecord)
         self.addForm("SHOWRECORDFM", ShowRecord)
         self.addForm("FILTERFORM", FilterForm)
         self.addForm("PRINTRECORDFM", PrintRecord)
+        self.addForm("POSFORM", PosForm)
         npyscreen.setTheme(npyscreen.Themes.ColorfulTheme)
 
 

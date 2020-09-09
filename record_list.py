@@ -11,6 +11,7 @@ class RecordList(npyscreen.MultiLineAction):
             "^D": self.when_delete_record,
             "^P": self.when_weight_print,
             "^F": self.when_filter,
+            "^L": self.when_clear_filter,
         })
 
     def display_value(self, vl):
@@ -43,3 +44,6 @@ class RecordList(npyscreen.MultiLineAction):
     def when_edit_record(self, act_on_this):
         self.parent.parentApp.getForm('EDITRECORDFM').value = act_on_this
         self.parent.parentApp.switchForm('EDITRECORDFM')
+
+    def when_clear_filter(self, act):
+        self.parent.parentApp.keywords = ''
